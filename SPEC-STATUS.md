@@ -14,7 +14,7 @@ v1.0 means we stop making breaking changes without a major version bump. We're n
 
 ## Current version
 
-The spec has iterated through internal drafts up to `0.7` (see the header in [`spec.md`](spec.md)). The first formally tagged public release will be `v0.1` — a deliberate reset marking the start of an explicit, public versioning policy, not a downgrade in maturity. See [ROADMAP.md](ROADMAP.md) for the path from there to `v1.0`.
+The spec is currently at `0.7` (see the header in [`spec.md`](spec.md)). We haven't adopted a formal public versioning policy yet — see the Format versioning theme in [ROADMAP.md](ROADMAP.md) for how we'll decide that, and what has to be true before we call something `v1.0`.
 
 ## How to give feedback
 

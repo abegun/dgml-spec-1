@@ -34,7 +34,7 @@ Tracked in [#7](https://github.com/dgml-io/dgml-spec/issues/7).
 Define what a version number means for this spec, and what has to be true before we call something `v1.0` and stop making breaking changes without a major bump.
 
 - [ ] Adopt a versioning policy for the spec itself — independent of DGMLX's per-document/per-anchor versioning (already specified in spec.md §10), which is unrelated
-- [ ] Publish the first formally tagged release as `v0.1`, marking the start of an explicit public versioning policy rather than continuing the informal internal draft numbering (currently `0.7`)
+- [ ] Decide the public release numbering scheme going forward (the spec is currently at `0.7` internally; no public releases have been tagged yet)
 - [ ] Define the criteria for locking `v1.0` — e.g., a minimum number of independent implementations, real-world document types validated beyond the founding organizations, and a quiet period with no open breaking-change proposals
 
 Tracked in [#8](https://github.com/dgml-io/dgml-spec/issues/8).
