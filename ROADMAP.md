@@ -14,8 +14,7 @@ The spec is stable enough to build on today. It is not frozen. Between now and v
 
 Keep the core structural primitives — docsets, namespaces, `dg:origin`, `dg:itemprop`/`dg:href`, the `dg:` reserved attribute set, and the DGMLX package/attestation model — from changing shape without a documented, versioned migration path.
 
-- [ ] Mark which `spec.md` sections are "core" (unlikely to change shape) vs. "still evolving" (open to change based on feedback)
-- [ ] Document a deprecation/migration policy for any breaking change made before v1.0 locks
+"Stable" means: if you build against today's spec, a change that breaks you will be called out explicitly, not buried in a diff.
 
 Tracked in [#6](https://github.com/dgml-io/dgml-spec/issues/6).
 
@@ -23,19 +22,17 @@ Tracked in [#6](https://github.com/dgml-io/dgml-spec/issues/6).
 
 Right now feedback has no defined home or response expectation. This theme is about making "open an issue" actually work: where things go (Issues vs. Discussions), who triages, and how a proposal moves from "raised" to "decided."
 
-- [ ] Publish issue/PR triage expectations (response-time target, who's on point)
-- [ ] Stand up the steering committee referenced in [CONTRIBUTING.md](CONTRIBUTING.md)
-- [ ] Add issue templates for "spec bug," "spec change proposal," and "new sample contribution"
-
 Tracked in [#7](https://github.com/dgml-io/dgml-spec/issues/7).
 
 ### 3. Format versioning
 
-Define what a version number means for this spec, and what has to be true before we call something `v1.0` and stop making breaking changes without a major bump.
+Define what a version number means for this spec, and what has to be true before we call something `v1.0` and stop making breaking changes without a major version bump.
 
-- [ ] Adopt a versioning policy for the spec itself — independent of DGMLX's per-document/per-anchor versioning (already specified in spec.md §10), which is unrelated
+Note: this is about the spec's own version, distinct from the per-document/per-anchor versioning already defined for blockchain anchoring in spec.md §10 ("Each URI is versioned...") — that mechanism is unrelated and already shipped.
+
+- [ ] Adopt a versioning policy for the spec (what changes warrant a major/minor bump, where it's recorded)
 - [ ] Decide the public release numbering scheme going forward (the spec is currently at `0.7` internally; no public releases have been tagged yet)
-- [ ] Define the criteria for locking `v1.0` — e.g., a minimum number of independent implementations, real-world document types validated beyond the founding organizations, and a quiet period with no open breaking-change proposals
+- [ ] Define the criteria for locking `v1.0` (e.g., independent implementations, real-world document types validated beyond the founding organizations, a quiet period with no open breaking-change proposals)
 
 Tracked in [#8](https://github.com/dgml-io/dgml-spec/issues/8).
 
