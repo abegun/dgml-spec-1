@@ -39,7 +39,6 @@ Tracked in [#8](https://github.com/dgml-io/dgml-spec/issues/8).
 ## Out of scope for this window
 
 - Formal submission to a standards body (OASIS, ISO, etc.) — premature before v1.0 locks.
-- Multi-language reference implementations — that's implementation work, tracked in the [`dgml`](https://github.com/dgml-io/dgml) repo, not here.
 
 ## How to influence this roadmap
 
