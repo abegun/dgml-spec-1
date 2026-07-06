@@ -5,7 +5,6 @@
 ## What "stable" means right now
 
 - The core architecture — docsets, namespaces, `dg:origin` grounding, `dg:itemprop`/`dg:href` semantic links, and the DGMLX package/attestation format (spec.md §§1–10) — is settled. We do not expect these to change shape.
-- Specific attribute names, edge-case handling, and less-central sections (e.g., user-directed extraction schemas, §13) are still open to change based on real feedback.
 - Any breaking change made before v1.0 will be called out explicitly, with a migration note — see the [Spec stability tracking issue](https://github.com/dgml-io/dgml-spec/issues/6) — not buried silently in a diff.
 
 ## Why it's not v1.0 yet
