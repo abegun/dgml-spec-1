@@ -2,6 +2,8 @@
 
 This repository is the home of the **DGML format specification** and the community hub for the open standard.
 
+> **Spec status:** stable enough to build on, not yet locked at v1.0. See [SPEC-STATUS.md](SPEC-STATUS.md) for what's settled and [ROADMAP.md](ROADMAP.md) for what's next.
+
 DGML (Document Graph Markup Language) is a semantic XML representation of business documents. Where raw source files give you layout and pixels, DGML gives you meaning: tags that describe what each element is in the document's domain — a contract clause, an invoice line item, a policy definition — not how it appeared on the page.
 
 The headline feature is cross-document tag consistency: documents of the same kind share the same semantic vocabulary — what separates DGML from a raw extraction or structural transcription, and what makes it suitable for reasoning over a corpus rather than a single file.
@@ -19,6 +21,8 @@ The fourth is attestation: Proof of Origin at the data-element level. Every DGML
 - [`spec.pdf`](spec.pdf) — The DGML format specification, derived from `spec.md`, rendered as PDF
 - [`samples/`](samples/) — Samples of DGML files
 - [`scripts/`](scripts/) — Maintenance utilities (e.g. regenerating `samples/file-list.json`)
+- [`SPEC-STATUS.md`](SPEC-STATUS.md) — Where the spec stands right now and how to give feedback
+- [`ROADMAP.md`](ROADMAP.md) — Priorities for the next 3–6 months
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — How to contribute
 
 ## Participate
