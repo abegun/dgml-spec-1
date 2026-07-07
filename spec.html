@@ -913,7 +913,7 @@ return current == root_hash
 <li><strong>The natural clusters</strong> — how are facts grouped? What are the logical containment relationships?</li>
 </ol>
 <h3 id="step-3-define-the-schema-new-docsets-only">Step 3 — Define the Schema (new docsets only)</h3>
-<p>Write a <code>schema.rnc</code> that names every recurring field, assigns it a <code>parentRole</code> group, and sets <code>siblingsShare</code> correctly. The schema is the contract between documents in the docset — it must be stable enough that every document can be tagged against it without revision.</p>
+<p>Write a <code>schema.rnc</code> that names every recurring field and assigns it a <code>parentRole</code> group. The schema is the contract between documents in the docset — it must be stable enough that every document can be tagged against it without revision.</p>
 <p>Tag names must describe <strong>what a value is</strong>, not where it appears or how it looks:</p>
 <table>
 <thead>
@@ -947,7 +947,6 @@ return current == root_hash
 <li><strong>Be stable.</strong> A tag must mean the same thing across every document in the docset. If a slot sometimes means one thing and sometimes another, split it into two tags.</li>
 <li><strong>Don't mimic layout.</strong> Nesting should reflect real containment or logical grouping.</li>
 <li><strong>Use <code>dg:chunk</code> when uncertain.</strong> A bounded block with an ambiguous semantic role is better wrapped in <code>dg:chunk dg:structure="…"</code> than forced into a wrong tag.</li>
-<li><strong><code>siblingsShare=true</code></strong> for fields meaningfully comparable across documents (dates, amounts, durations). <strong><code>siblingsShare=false</code></strong> for document-specific content (party names, free-text recitals, identifiers).</li>
 </ul>
 <h3 id="structure-and-style-conventions">Structure and style conventions</h3>
 <p>These rules govern how <code>dg:structure</code> and <code>dg:style</code> attribute values are applied when generating DGML. They are generation rules, not schema rules — the schema defines concept names; these rules define how structural scaffolding and visual presentation are expressed.</p>
@@ -1018,10 +1017,6 @@ InlineTag        = VendorTaxId | InvoiceTotal | SignatoryName | ...
 
 AnyTag = ContractLevelTag | ClauseItemTag | InlineTag
 </code></pre>
-<p><strong><code>siblingsShare</code></strong> — encoded as a fixed string literal attribute:</p>
-<pre><code class="language-rnc">siblingsShareTrue  = attribute siblingsShare { &quot;true&quot; }
-siblingsShareFalse = attribute siblingsShare { &quot;false&quot; }
-</code></pre>
 <p>Element definitions carry <code>##</code> doc comments. Three annotations are defined:</p>
 <table>
 <thead>
@@ -1050,7 +1045,6 @@ siblingsShareFalse = attribute siblingsShare { &quot;false&quot; }
 ## Prompt: Look for the dollar amount following &quot;liability&quot; or &quot;not exceed&quot; in the indemnification section
 LiabilityCap =
   element docset:LiabilityCap {
-    siblingsShareTrue,
     (text | AnyTag)*
   }
 </code></pre>
@@ -1072,7 +1066,6 @@ LiabilityCap =
 ## Invoice root
 Invoice =
   element docset:Invoice {
-    attribute siblingsShare { &quot;false&quot; },
     (VendorName | InvoiceDate | LineItems | InvoiceTotal)*
   }
 
@@ -1081,7 +1074,6 @@ Invoice =
 ## Prompt: Look for the company name at the top of the invoice
 VendorName =
   element docset:VendorName {
-    attribute siblingsShare { &quot;false&quot; },
     text
   }
 
@@ -1090,21 +1082,18 @@ VendorName =
 ## Prompt: Look for the date labeled &quot;Invoice Date&quot; or &quot;Date&quot;
 InvoiceDate =
   element docset:InvoiceDate {
-    attribute siblingsShare { &quot;true&quot; },
     text
   }
 
 ## Collection of line items
 LineItems =
   element docset:LineItems {
-    attribute siblingsShare { &quot;false&quot; },
     LineItem*
   }
 
 ## Single line item
 LineItem =
   element docset:LineItem {
-    attribute siblingsShare { &quot;false&quot; },
     (ProductName | Quantity | UnitPrice)*
   }
 
@@ -1112,7 +1101,6 @@ LineItem =
 ## Prompt: The description column of the line item
 ProductName =
   element docset:ProductName {
-    attribute siblingsShare { &quot;false&quot; },
     text
   }
 
@@ -1120,7 +1108,6 @@ ProductName =
 ## Prompt: The quantity column of the line item
 Quantity =
   element docset:Quantity {
-    attribute siblingsShare { &quot;true&quot; },
     text
   }
 
@@ -1128,7 +1115,6 @@ Quantity =
 ## Prompt: The unit price column of the line item
 UnitPrice =
   element docset:UnitPrice {
-    attribute siblingsShare { &quot;true&quot; },
     text
   }
 
@@ -1136,7 +1122,6 @@ UnitPrice =
 ## Prompt: Compute as sum of Quantity × UnitPrice for each LineItem; verify against any printed total
 InvoiceTotal =
   element docset:InvoiceTotal {
-    attribute siblingsShare { &quot;true&quot; },
     text
   }
 </code></pre>
@@ -1147,7 +1132,6 @@ InvoiceTotal =
     &quot;xsd&quot;: &quot;http://www.w3.org/2001/XMLSchema#&quot;,
     &quot;Tag&quot;:          &quot;docset:Tag&quot;,
     &quot;TagGroup&quot;:     &quot;docset:TagGroup&quot;,
-    &quot;siblingsShare&quot;: { &quot;@id&quot;: &quot;docset:siblingsShare&quot;, &quot;@type&quot;: &quot;xsd:boolean&quot; },
     &quot;members&quot;:      { &quot;@id&quot;: &quot;docset:members&quot;, &quot;@type&quot;: &quot;@id&quot;, &quot;@container&quot;: &quot;@set&quot; },
     &quot;description&quot;:  &quot;docset:description&quot;,
     &quot;example&quot;:      &quot;docset:example&quot;,
@@ -1157,57 +1141,57 @@ InvoiceTotal =
   &quot;@graph&quot;: [
     {
       &quot;@id&quot;: &quot;docset:Invoice&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Invoice root&quot;,
       &quot;children&quot;: [&quot;docset:VendorName&quot;, &quot;docset:InvoiceDate&quot;, &quot;docset:LineItems&quot;, &quot;docset:InvoiceTotal&quot;]
     },
     {
       &quot;@id&quot;: &quot;docset:VendorName&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Legal name of the vendor&quot;,
       &quot;example&quot;: &quot;MagicSoft, Inc.&quot;,
       &quot;prompt&quot;: &quot;Look for the company name at the top of the invoice&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:InvoiceDate&quot;,
-      &quot;@type&quot;: &quot;docset:SharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Invoice issue date&quot;,
       &quot;example&quot;: &quot;2025-03-01&quot;,
       &quot;prompt&quot;: &quot;Look for the date labeled \&quot;Invoice Date\&quot; or \&quot;Date\&quot;&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:LineItems&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Collection of line items&quot;,
       &quot;children&quot;: [&quot;docset:LineItem&quot;]
     },
     {
       &quot;@id&quot;: &quot;docset:LineItem&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Single line item&quot;,
       &quot;children&quot;: [&quot;docset:ProductName&quot;, &quot;docset:Quantity&quot;, &quot;docset:UnitPrice&quot;]
     },
     {
       &quot;@id&quot;: &quot;docset:ProductName&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Product or service name&quot;,
       &quot;prompt&quot;: &quot;The description column of the line item&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:Quantity&quot;,
-      &quot;@type&quot;: &quot;docset:SharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Quantity ordered&quot;,
       &quot;prompt&quot;: &quot;The quantity column of the line item&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:UnitPrice&quot;,
-      &quot;@type&quot;: &quot;docset:SharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Unit price&quot;,
       &quot;prompt&quot;: &quot;The unit price column of the line item&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:InvoiceTotal&quot;,
-      &quot;@type&quot;: &quot;docset:SharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Total invoice amount&quot;,
       &quot;prompt&quot;: &quot;Compute as sum of Quantity × UnitPrice for each LineItem; verify against any printed total&quot;
     }
@@ -1778,12 +1762,8 @@ Provenance chain ─────────────────────
 <td><code>"docset": "…"</code> entry in <code>@context</code></td>
 </tr>
 <tr>
-<td>Element definition with <code>siblingsShare { "true" }</code></td>
-<td>Node with <code>"@type": "docset:SharedTag"</code></td>
-</tr>
-<tr>
-<td>Element definition with <code>siblingsShare { "false" }</code></td>
-<td>Node with <code>"@type": "docset:NonSharedTag"</code></td>
+<td>Element definition</td>
+<td>Node with <code>"@type": "docset:Tag"</code></td>
 </tr>
 <tr>
 <td>Named group (alternation of element refs)</td>
@@ -1815,7 +1795,6 @@ Provenance chain ─────────────────────
     &quot;xsd&quot;: &quot;http://www.w3.org/2001/XMLSchema#&quot;,
     &quot;Tag&quot;:          &quot;docset:Tag&quot;,
     &quot;TagGroup&quot;:     &quot;docset:TagGroup&quot;,
-    &quot;siblingsShare&quot;: { &quot;@id&quot;: &quot;docset:siblingsShare&quot;, &quot;@type&quot;: &quot;xsd:boolean&quot; },
     &quot;members&quot;:      { &quot;@id&quot;: &quot;docset:members&quot;, &quot;@type&quot;: &quot;@id&quot;, &quot;@container&quot;: &quot;@set&quot; },
     &quot;description&quot;:  &quot;docset:description&quot;,
     &quot;example&quot;:      &quot;docset:example&quot;,
@@ -1825,7 +1804,7 @@ Provenance chain ─────────────────────
   &quot;@graph&quot;: [ &quot;...&quot; ]
 }
 </code></pre>
-<p><code>Tag</code>, <code>TagGroup</code>, <code>siblingsShare</code>, <code>members</code>, <code>description</code>, <code>example</code>, <code>prompt</code>, and <code>children</code> are always present. They expand against the docset namespace, so every docset gets its own copy of these terms in its namespace — they are not shared across docsets.</p>
+<p><code>Tag</code>, <code>TagGroup</code>, <code>members</code>, <code>description</code>, <code>example</code>, <code>prompt</code>, and <code>children</code> are always present. They expand against the docset namespace, so every docset gets its own copy of these terms in its namespace — they are not shared across docsets.</p>
 <h4 id="example_1">Example</h4>
 <p>The following RNC schema defines the vocabulary for the same ACME Corp Master Services Agreements docset used in the A.2 example. The tags here correspond directly to the <code>docset:</code> elements in that XML instance.</p>
 <p>Input RNC schema:</p>
@@ -1836,7 +1815,6 @@ ClauseItemTag = LiabilityCap | EffectiveDate | VendorName | VendorRef
 ## Indemnification clause section
 IndemnificationClause =
   element docset:IndemnificationClause {
-    attribute siblingsShare { &quot;false&quot; },
     (text | ClauseItemTag)*
   }
 
@@ -1844,7 +1822,6 @@ IndemnificationClause =
 ## Example: $500,000
 LiabilityCap =
   element docset:LiabilityCap {
-    attribute siblingsShare { &quot;true&quot; },
     (text | ClauseItemTag)*
   }
 
@@ -1852,7 +1829,6 @@ LiabilityCap =
 ## Example: January 1, 2024
 EffectiveDate =
   element docset:EffectiveDate {
-    attribute siblingsShare { &quot;true&quot; },
     (text | ClauseItemTag)*
   }
 
@@ -1860,14 +1836,12 @@ EffectiveDate =
 ## Example: MagicSoft, Inc.
 VendorName =
   element docset:VendorName {
-    attribute siblingsShare { &quot;false&quot; },
     (text | ClauseItemTag)*
   }
 
 ## Reference to a vendor entity
 VendorRef =
   element docset:VendorRef {
-    attribute siblingsShare { &quot;false&quot; },
     (text | ClauseItemTag)*
   }
 </code></pre>
@@ -1878,7 +1852,6 @@ VendorRef =
     &quot;xsd&quot;: &quot;http://www.w3.org/2001/XMLSchema#&quot;,
     &quot;Tag&quot;:          &quot;docset:Tag&quot;,
     &quot;TagGroup&quot;:     &quot;docset:TagGroup&quot;,
-    &quot;siblingsShare&quot;: { &quot;@id&quot;: &quot;docset:siblingsShare&quot;, &quot;@type&quot;: &quot;xsd:boolean&quot; },
     &quot;members&quot;:      { &quot;@id&quot;: &quot;docset:members&quot;, &quot;@type&quot;: &quot;@id&quot;, &quot;@container&quot;: &quot;@set&quot; },
     &quot;description&quot;:  &quot;docset:description&quot;,
     &quot;example&quot;:      &quot;docset:example&quot;
@@ -1896,37 +1869,37 @@ VendorRef =
     },
     {
       &quot;@id&quot;: &quot;docset:IndemnificationClause&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Indemnification clause section&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:LiabilityCap&quot;,
-      &quot;@type&quot;: &quot;docset:SharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Agreed maximum liability exposure under the contract&quot;,
       &quot;example&quot;: &quot;$500,000&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:EffectiveDate&quot;,
-      &quot;@type&quot;: &quot;docset:SharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Effective date of the contract&quot;,
       &quot;example&quot;: &quot;January 1, 2024&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:VendorName&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Legal name of the vendor party&quot;,
       &quot;example&quot;: &quot;MagicSoft, Inc.&quot;
     },
     {
       &quot;@id&quot;: &quot;docset:VendorRef&quot;,
-      &quot;@type&quot;: &quot;docset:NonSharedTag&quot;,
+      &quot;@type&quot;: &quot;docset:Tag&quot;,
       &quot;description&quot;: &quot;Reference to a vendor entity&quot;
     }
   ]
 }
 </code></pre>
 <p>The <code>docset:</code> namespace URI here is identical to the one declared on the XML instance in A.2, so <code>@type: "docset:LiabilityCap"</code> in the XAST export expands to the same IRI as <code>@id: "docset:LiabilityCap"</code> in the schema — making the two JSON-LD documents directly joinable by a standard JSON-LD processor.</p>
-<p><code>SharedTag</code> nodes (where <code>siblingsShare</code> is <code>true</code>) identify values that can reasonably be extracted and compared across documents — e.g., a liability cap amount or an effective date. <code>NonSharedTag</code> nodes identify structural elements that are unique to a specific document instance — e.g., a vendor name or clause section. <code>TagGroup</code> nodes define named sets of tags that appear together in a given structural role, such as all tags valid inside a clause.</p>
+<p><code>Tag</code> nodes identify individual schema fields — e.g., a liability cap amount, an effective date, or a vendor name. <code>TagGroup</code> nodes define named sets of tags that appear together in a given structural role, such as all tags valid inside a clause.</p>
 <hr />
 <h2 id="appendix-b-minimal-complete-example">Appendix B — Minimal Complete Example</h2>
 <p>Two-page MSA, organization <code>acme-corp</code>, docset <code>master-services-agreements</code>:</p>
