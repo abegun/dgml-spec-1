@@ -1,0 +1,121 @@
+namespace docset = "http://dgml.io/acme-inc/SecuredCreditAgreement"
+
+## Full legal name of the Borrower entity.
+## Example: ARTEMIS DATA SYSTEMS LTD.
+## Prompt: The full legal name of the Borrower party to the credit agreement.
+BorrowerName =
+  element docset:BorrowerName {
+    text
+  }
+
+## Jurisdiction of organization of the Borrower.
+## Example: South Pole Settlement District
+## Prompt: The jurisdiction / district in which the Borrower is organized.
+BorrowerJurisdiction =
+  element docset:BorrowerJurisdiction {
+    text
+  }
+
+## Full legal name of the Lender party or lending group.
+## Example: CONCERT OF JOVIAN-LUNAR SOVEREIGN WEALTH FUNDS
+## Prompt: The full legal name of the Lender party (or lending group) to the credit agreement.
+LenderName =
+  element docset:LenderName {
+    text
+  }
+
+## Total principal commitment of the credit facility, in Lunar Credits (LC).
+## Example: 500000000
+## Prompt: The total principal commitment of the credit facility as a number of Lunar Credits (LC), no currency symbol or grouping.
+PrincipalAmount =
+  element docset:PrincipalAmount {
+    xsd:decimal
+  }
+
+## Name of the interest-rate index the facility is priced against.
+## Example: SOFR Index
+## Prompt: The name of the benchmark interest-rate index used to price the facility (e.g. "SOFR Index").
+InterestIndexName =
+  element docset:InterestIndexName {
+    text
+  }
+
+## Interest spread applied over the index, as a percent per annum.
+## Example: 2.50
+## Prompt: The interest spread applied over the index, as a percentage number per annum (e.g. 2.50 for "2.50% per annum").
+InterestSpreadPct =
+  element docset:InterestSpreadPct {
+    xsd:decimal
+  }
+
+## Name of the required specialty reserve fund.
+## Example: Physical Protection Fund
+## Prompt: The name of the specialty reserve or protection fund the Borrower must maintain.
+ReserveFundName =
+  element docset:ReserveFundName {
+    text
+  }
+
+## Minimum required balance of the reserve fund, in Lunar Credits (LC).
+## Example: 45000000
+## Prompt: The minimum required balance of the reserve fund as a number of Lunar Credits (LC), no currency symbol or grouping.
+ReserveAmount =
+  element docset:ReserveAmount {
+    xsd:decimal
+  }
+
+## The core operational covenant threshold the Borrower must maintain.
+## Example: 40 Kelvin
+## Prompt: The operational threshold defined by the primary asset covenant (e.g. a maximum temperature such as "40 Kelvin").
+OperationalThreshold =
+  element docset:OperationalThreshold {
+    text
+  }
+
+## Cure period allowed before an operational breach becomes an event of default.
+## Example: four (4) Earth hours
+## Prompt: The cure period the Borrower is granted to correct an operational covenant breach before default.
+DefaultCurePeriod =
+  element docset:DefaultCurePeriod {
+    text
+  }
+
+## Name of the individual signing on behalf of the Borrower.
+## Example: Dr. Aris Thorne
+## Prompt: The name of the individual who signs the agreement on behalf of the Borrower.
+BorrowerSignatory =
+  element docset:BorrowerSignatory {
+    text
+  }
+
+## Name of the individual signing on behalf of the Lender.
+## Example: Lady Vespera Lin
+## Prompt: The name of the individual who signs the agreement on behalf of the Lender.
+LenderSignatory =
+  element docset:LenderSignatory {
+    text
+  }
+
+## Date the agreement was signed / became effective.
+## Example: 2026-06-26
+## Prompt: The date of signatures appearing in the execution panel of the agreement.
+SignatureDate =
+  element docset:SignatureDate {
+    xsd:date
+  }
+
+## COMPUTED: reserve balance as a percentage of principal commitment.
+## Example: 9
+## Prompt: Compute ReserveAmount divided by PrincipalAmount, times 100, giving the required reserve as a percentage of the principal commitment. Derived from ReserveAmount and PrincipalAmount.
+ReserveCoveragePct =
+  element docset:ReserveCoveragePct {
+    xsd:decimal
+  }
+
+## COMPUTED: annual interest cost attributable to the credit spread.
+## Example: 12500000
+## Prompt: Compute PrincipalAmount multiplied by InterestSpreadPct divided by 100, the annual interest attributable to the credit spread over the index. Derived from PrincipalAmount and InterestSpreadPct.
+SpreadAnnualInterestCost =
+  element docset:SpreadAnnualInterestCost {
+    xsd:decimal
+  }
