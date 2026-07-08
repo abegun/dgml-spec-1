@@ -1,0 +1,97 @@
+namespace docset = "http://dgml.io/acme-inc/BorrowerPeriodicOperatingStatement"
+
+## Legal name of the Borrower submitting the operating statement.
+## Example: Artemis Data Systems & Deep-Space Relay
+## Prompt: The name of the Borrower entity that submitted this operating statement.
+BorrowerName =
+  element docset:BorrowerName {
+    text
+  }
+
+## The reporting period the statement covers.
+## Example: Q3 2026
+## Prompt: The fiscal reporting period the statement covers (e.g. "Q3 2026").
+ReportingPeriod =
+  element docset:ReportingPeriod {
+    text
+  }
+
+## Consolidated gross revenue for the period, in Lunar Credits (LC).
+## Example: 75700000
+## Prompt: The consolidated gross revenue total for the reporting period as a number of Lunar Credits (LC), no currency symbol or grouping.
+QuarterlyGrossRevenue =
+  element docset:QuarterlyGrossRevenue {
+    xsd:decimal
+  }
+
+## Total net operating expenses for the period (positive magnitude), in LC.
+## Example: 22500000
+## Prompt: The total net operating expenses for the reporting period as a positive number of Lunar Credits (LC); drop any parentheses or minus sign, no grouping.
+QuarterlyOperatingExpenses =
+  element docset:QuarterlyOperatingExpenses {
+    xsd:decimal
+  }
+
+## Net operating income (NOI) stated for the period, in LC.
+## Example: 53200000
+## Prompt: The net operating income (NOI) total stated for the reporting period as a number of Lunar Credits (LC), no currency symbol or grouping.
+QuarterlyNetOperatingIncome =
+  element docset:QuarterlyNetOperatingIncome {
+    xsd:decimal
+  }
+
+## Debt service (principal & interest) drawn for the period (positive magnitude), in LC.
+## Example: 31050000
+## Prompt: The total debt service (principal & interest) for the reporting period as a positive number of Lunar Credits (LC); drop any parentheses or minus sign, no grouping.
+QuarterlyDebtService =
+  element docset:QuarterlyDebtService {
+    xsd:decimal
+  }
+
+## Actual debt service coverage ratio (DSCR) achieved for the period.
+## Example: 1.71
+## Prompt: The actual DSCR achieved for the period, as a decimal multiple (e.g. 1.71 for "1.71x").
+ActualDSCR =
+  element docset:ActualDSCR {
+    xsd:decimal
+  }
+
+## Base SOFR index rate for the period, as a percent.
+## Example: 3.65
+## Prompt: The base SOFR index rate for the period, as a percentage number (e.g. 3.65 for "3.65%").
+SOFRIndexRate =
+  element docset:SOFRIndexRate {
+    xsd:decimal
+  }
+
+## Effective all-in quarterly interest charge, as a percent per annum.
+## Example: 6.15
+## Prompt: The effective quarterly interest charge (all-in rate), as a percentage number per annum (e.g. 6.15 for "6.15%").
+EffectiveQuarterlyInterestRate =
+  element docset:EffectiveQuarterlyInterestRate {
+    xsd:decimal
+  }
+
+## COMPUTED: net operating income cross-check from revenue and expenses.
+## Example: 53200000
+## Prompt: Compute QuarterlyGrossRevenue minus QuarterlyOperatingExpenses; this should reconcile with the stated QuarterlyNetOperatingIncome. Derived from QuarterlyGrossRevenue and QuarterlyOperatingExpenses.
+NetOperatingIncomeCheck =
+  element docset:NetOperatingIncomeCheck {
+    xsd:decimal
+  }
+
+## COMPUTED: DSCR cross-check from NOI and debt service.
+## Example: 1.71
+## Prompt: Compute QuarterlyNetOperatingIncome divided by QuarterlyDebtService, rounded to two decimals; this should reconcile with the stated ActualDSCR. Derived from QuarterlyNetOperatingIncome and QuarterlyDebtService.
+DSCRCheck =
+  element docset:DSCRCheck {
+    xsd:decimal
+  }
+
+## COMPUTED: net residual operating cash flow after debt service.
+## Example: 22150000
+## Prompt: Compute QuarterlyNetOperatingIncome minus QuarterlyDebtService, the residual operating cash flow after debt service. Derived from QuarterlyNetOperatingIncome and QuarterlyDebtService.
+NetResidualCashFlowComputed =
+  element docset:NetResidualCashFlowComputed {
+    xsd:decimal
+  }
