@@ -15,4 +15,4 @@ New to DGML? **[`hello-dgml.md`](hello-dgml.md)** is a hello-world walkthrough: 
 | [`3-Private-Credit-Funds/`](3-Private-Credit-Funds) | A private credit manager wants a fund NAV verifiable down to individual loans, for an eventually tokenized interest. |
 | [`4-Infrastructure-Funds/`](4-Infrastructure-Funds) | An infrastructure fund's CFO needs decades-long operating performance independently verifiable, asset by asset. |
 
-Each folder holds the source PDFs and a generated `dgml-workspace/` with the resulting `.dgml.xml` files, docset by docset — see [`get-started`](../get-started) for how they were produced.
+Each folder holds the source PDFs and a generated `dgml-workspace/` with the resulting `.dgml.xml` files, docset by docset — see [`get-started`](https://github.com/dgml-io/dgml/tree/main/get-started) in the `dgml` repo for how they were produced.

@@ -2,7 +2,7 @@
 
 This is a hands-on first encounter with the format: one real DGML output file — a commercial lease agreement — annotated line by line to show every feature described in the [spec](https://github.com/dgml-io/dgml-spec/blob/main/spec.md) as it actually appears in practice. If you only read one thing before the spec itself, read this.
 
-The source file is `Arcadia Biotech.dgml.xml`, one of the documents in the [Non-Traded Real Estate Funds scenario](1-NonTraded-NAV-REITs/README.md) (see [`get-started`](../get-started) for how it was generated), and lives at:
+The source file is `Arcadia Biotech.dgml.xml`, one of the documents in the [Non-Traded Real Estate Funds scenario](1-NonTraded-NAV-REITs/README.md) (see [`get-started`](https://github.com/dgml-io/dgml/tree/main/get-started) in the `dgml` repo for how it was generated), and lives at:
 
 ```
 1-NonTraded-NAV-REITs/dgml-workspace/docsets/3ym6vmfrczj5/files/ziwoi3co9qc0/Arcadia Biotech.dgml.xml
@@ -48,7 +48,7 @@ The domain vocabulary is namespaced under `docset:` (bound to `http://dgml.io/dg
 
 None of these are inferred from HTML-like structure — a `<table>` or `<div class="rent">` doesn't tell you which number is the annual rent versus the per-square-meter rate versus the TI allowance. The tag name does. That's the semantic layer: query `AnnualRentAmount` across every lease in the docset and you get exactly the right number back, every time, with no per-document parsing logic.
 
-Structural roles are a separate, generic vocabulary — `dg:structure="section"`, `"header"`, `"ul"`/`"ol"`/`"li"`, `"lim"` (the `1.1.`, `2.1.` clause-number markers, rendered inline with no wrapper), `"p"`. These map directly to HTML tags (this is exactly what [`tools/dgml2html`](../tools/dgml2html) does) and are what make the file renderable — see Layer 4 below.
+Structural roles are a separate, generic vocabulary — `dg:structure="section"`, `"header"`, `"ul"`/`"ol"`/`"li"`, `"lim"` (the `1.1.`, `2.1.` clause-number markers, rendered inline with no wrapper), `"p"`. These map directly to HTML tags (this is exactly what [`tools/dgml2html`](https://github.com/dgml-io/dgml/tree/main/tools/dgml2html) does) and are what make the file renderable — see Layer 4 below.
 
 ## Layer 2 — Spatial: every value traced to the page
 
@@ -115,7 +115,7 @@ Some content elements carry a `dg:structure` role, and some also carry an option
     dg:origin="1 122 821 749 852">ARTICLE 1: PREMISES, TERM, AND RENT</dg:chunk>
 ```
 
-[`tools/dgml2html`](../tools/dgml2html) turns both attributes into a normal HTML page: `dg:structure` picks the tag (`section` → `<section>`, `li` → `<li>`, `lim` markers → inline enumerator text with no wrapper, …), and `dg:style` is copied verbatim into that tag's `style` attribute. Running it (from the repo root):
+[`tools/dgml2html`](https://github.com/dgml-io/dgml/tree/main/tools/dgml2html) (in the `dgml` repo) turns both attributes into a normal HTML page: `dg:structure` picks the tag (`section` → `<section>`, `li` → `<li>`, `lim` markers → inline enumerator text with no wrapper, …), and `dg:style` is copied verbatim into that tag's `style` attribute. Running it (from the repo root):
 
 ```bash
 python tools/dgml2html/dgml2html "samples/1-NonTraded-NAV-REITs/dgml-workspace/docsets/3ym6vmfrczj5/files/ziwoi3co9qc0/Arcadia Biotech.dgml.xml" -o arcadia-biotech.html

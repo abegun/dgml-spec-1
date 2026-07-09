@@ -6,7 +6,7 @@ DGML encodes each concession agreement and operating report as a structured docu
 
 ## Documents in this scenario
 
-The largest sample set: ten asset sets (`deal1`–`deal10`), each with a loan agreement, a quarterly report, and a valuation memo, organized into three docsets so the shared vocabulary applies across each document type — this is also the scenario used in [`get-started`](../../get-started) to demonstrate automated document clustering, since it's large enough for the clusterer to have real groupings to find.
+The largest sample set: ten asset sets (`deal1`–`deal10`), each with a loan agreement, a quarterly report, and a valuation memo, organized into three docsets so the shared vocabulary applies across each document type — this is also the scenario used in [`get-started`](https://github.com/dgml-io/dgml/tree/main/get-started) (in the `dgml` repo) to demonstrate automated document clustering, since it's large enough for the clusterer to have real groupings to find.
 
 | Docset | Contents |
 |---|---|
